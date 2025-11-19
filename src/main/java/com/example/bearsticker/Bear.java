@@ -80,26 +80,35 @@ public class Bear extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Group root = new Group();
-        Random rand = new Random();
+        Group group1 = new Group();
 
-        int numberOfBears = 5;  // change this for more or fewer bears
-        int width = 800;
-        int height = 600;
+        int numberOfBears = 9;
+        int cols = 3;            // how many  per row
+        int spacingX = 200;      // space
+        int spacingY = 220;      //space
 
-        // Place bears randomly
+        int startX = 150;        // grid
+        int startY = 150;        // grid
+
         for (int i = 0; i < numberOfBears; i++) {
-            double x = 80 + rand.nextInt(width - 160);   // keep on screen
-            double y = 80 + rand.nextInt(height - 200);
 
-            root.getChildren().add(createBear(x, y));
+            // Calculate row and column
+            int col = i % cols;
+            int row = i / cols;
+
+            // Convert row/col to screen coordinates
+            double x = startX + col * spacingX;
+            double y = startY + row * spacingY;
+
+            group1.getChildren().add(createBear(x, y));
         }
 
-        Scene scene = new Scene(root, width, height, Color.LIGHTBLUE);
+        Scene scene = new Scene(group1, 800, 600, Color.LIGHTBLUE);
         stage.setTitle("Random Bears");
         stage.setScene(scene);
         stage.show();
     }
+
 
     public static void main(String[] args) {
         launch();
