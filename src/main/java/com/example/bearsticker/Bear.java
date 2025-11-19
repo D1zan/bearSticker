@@ -79,36 +79,28 @@ public class Bear extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         Group group1 = new Group();
 
         int numberOfBears = 6;
-        int cols = 3;            // how many  per row
-        int spacingX = 200;      // space
-        int spacingY = 220;      //space
-
-        int startX = 150;        // grid
-        int startY = 150;        // grid
+        int columns = 3;
+        int spacingX = 200;
+        int spacingY = 220;
+        int startX = 150;
+        int startY = 150;
 
         for (int i = 0; i < numberOfBears; i++) {
-
-            // Calculate row and column
-            int col = i % cols;
-            int row = i / cols;
-
-            // Convert row/col to screen coordinates
-            double x = startX + col * spacingX;
-            double y = startY + row * spacingY;
-
-            group1.getChildren().add(createBear(x, y));
+            int col = i % columns;
+            int row = i / columns;
+            group1.getChildren().add(createBear(
+                    startX + col * spacingX,
+                    startY + row * spacingY
+            ));
         }
-
-        Scene scene = new Scene(group1, 800, 600, Color.LIGHTBLUE);
-        stage.setTitle("Random Bears");
-        stage.setScene(scene);
+        stage.setScene(new Scene(group1, 800, 600, Color.LIGHTBLUE));
+        stage.setTitle("Bears");
         stage.show();
     }
-
 
     public static void main(String[] args) {
         launch();
