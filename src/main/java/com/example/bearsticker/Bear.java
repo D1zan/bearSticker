@@ -4,93 +4,99 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Bear extends Application {
-    @Override
-    public void start(Stage stage) throws IOException {
-        Group group = new Group();
-        //Belly
-        Ellipse ellipse = new Ellipse(180, 160, 40, 60);
+
+    // Creates ONE bear at a given x/y origin
+    private Group createBear(double x, double y) {
+        Group g = new Group();
+
+        // Belly
+        Ellipse ellipse = new Ellipse(x, y + 80, 40, 60);
         ellipse.setFill(Color.BROWN);
 
-        //inside of belly
-        Ellipse ellipse2 = new Ellipse(180,170,30,40);
+        // Inside belly
+        Ellipse ellipse2 = new Ellipse(x, y + 90, 30, 40);
         ellipse2.setFill(Color.LIGHTCORAL);
 
-        //Head
-        Circle circle = new Circle(180,80, 40, Color.BROWN);
+        // Head
+        Circle circle = new Circle(x, y, 40, Color.BROWN);
 
-        //foot 1 and inside of foot 1
-        Circle circle2 = new Circle(210,210,15, Color.BROWN);
-        Circle circle4 = new Circle(210,210,10,Color.LIGHTCORAL );
+        // Foot R
+        Circle circle2 = new Circle(x + 30, y + 130, 15, Color.BROWN);
+        Circle circle4 = new Circle(x + 30, y + 130, 10, Color.LIGHTCORAL);
 
-        //foot 2 and inside of foot 2
-        Circle circle3 = new Circle(150, 210,15, Color.BROWN);
-        Circle circle5 = new Circle(150,210,10,Color.LIGHTCORAL );
+        // Foot L
+        Circle circle3 = new Circle(x - 30, y + 130, 15, Color.BROWN);
+        Circle circle5 = new Circle(x - 30, y + 130, 10, Color.LIGHTCORAL);
 
-        //Ear1
-        Circle circle6 = new Circle(150,45,20, Color.BROWN);
+        // Ear1
+        Circle circle6 = new Circle(x - 30, y - 35, 20, Color.BROWN);
 
-        //Ear2
-        Circle circle7 = new Circle(210,45,20,Color.BROWN);
+        // Ear2
+        Circle circle7 = new Circle(x + 30, y - 35, 20, Color.BROWN);
 
-        //Arm Right
-        Circle circle8 = new Circle(220,140,15,Color.BROWN);
+        // Arm R
+        Circle circle8 = new Circle(x + 40, y + 60, 15, Color.BROWN);
 
-        //Arm Left
-        Circle circle9 = new Circle(140,140,15,Color.BROWN);
+        // Arm L
+        Circle circle9 = new Circle(x - 40, y + 60, 15, Color.BROWN);
 
-        //Right eye
-        Circle circleRight = new Circle(195,70,8,Color.WHITE);
-        Circle circlePupil = new Circle(195,73,5, Color.BLACK);
+        // Right eye + pupil
+        Circle circleRight = new Circle(x + 15, y - 10, 8, Color.WHITE);
+        Circle circlePupil = new Circle(x + 15, y - 7, 5, Color.BLACK);
 
-        //Left eye
-        Circle circleLeft = new Circle(165, 70,8,Color.WHITE );
-        Circle circlePupilLeft = new Circle(165, 73,5, Color.BLACK );
+        // Left eye + pupil
+        Circle circleLeft = new Circle(x - 15, y - 10, 8, Color.WHITE);
+        Circle circlePupilLeft = new Circle(x - 15, y - 7, 5, Color.BLACK);
 
-        //nose
-        Circle circleNose = new Circle(180, 85,3, Color.BLACK);
-        //line right
-        Arc arcRight = new Arc();
-        arcRight.setCenterX(190.0f);
-        arcRight.setCenterY(90.0f);
-        arcRight.setRadiusX(10.0f);
-        arcRight.setRadiusY(10.0f);
-        arcRight.setStartAngle(160.0f);
-        arcRight.setLength(150.0f);
+        // Nose
+        Circle circleNose = new Circle(x, y + 5, 3, Color.BLACK);
+
+        // Mouth lines
+        Arc arcRight = new Arc(x + 10, y + 10, 10, 10, 160, 150);
         arcRight.setType(ArcType.OPEN);
         arcRight.setFill(Color.TRANSPARENT);
         arcRight.setStroke(Color.BLACK);
-        //line Left
-        Arc arcLeft = new Arc();
-        arcLeft.setCenterX(170.0f);
-        arcLeft.setCenterY(90.0f);
-        arcLeft.setRadiusX(10.0f);
-        arcLeft.setRadiusY(10.0f);
-        arcLeft.setStartAngle(210.0f);
-        arcLeft.setLength(150.0f);
+
+        Arc arcLeft = new Arc(x - 10, y + 10, 10, 10, 210, 150);
         arcLeft.setType(ArcType.OPEN);
         arcLeft.setFill(Color.TRANSPARENT);
         arcLeft.setStroke(Color.BLACK);
 
+        g.getChildren().addAll(
+                ellipse, ellipse2, circle, circle2, circle4, circle3, circle5,
+                circle6, circle7, circle8, circle9,
+                circleRight, circlePupil, circleLeft, circlePupilLeft,
+                circleNose, arcRight, arcLeft);
 
+        return g;
+    }
 
+    @Override
+    public void start(Stage stage) throws IOException {
+        Group root = new Group();
+        Random rand = new Random();
 
+        int numberOfBears = 5;  // change this for more or fewer bears
+        int width = 800;
+        int height = 600;
 
+        // Place bears randomly
+        for (int i = 0; i < numberOfBears; i++) {
+            double x = 80 + rand.nextInt(width - 160);   // keep on screen
+            double y = 80 + rand.nextInt(height - 200);
 
+            root.getChildren().add(createBear(x, y));
+        }
 
-
-        group.getChildren().addAll(ellipse, ellipse2, circle, circle2,circle4, circle3,circle5,circle6,circle7,circle8,circle9,circleRight,circlePupil, circleLeft, circlePupilLeft,circleNose,arcRight, arcLeft);
-
-        Scene scene = new Scene( group, 350, 230, Color.LIGHTBLUE);
-        stage.setTitle("Bear");
+        Scene scene = new Scene(root, width, height, Color.LIGHTBLUE);
+        stage.setTitle("Random Bears");
         stage.setScene(scene);
         stage.show();
     }
