@@ -82,7 +82,7 @@ public class Bear extends Application {
     public void start(Stage stage) throws IOException {
         Group group1 = new Group();
 
-        int numberOfBears = 9;
+        int numberOfBears = 6;
         int cols = 3;            // how many  per row
         int spacingX = 200;      // space
         int spacingY = 220;      //space
